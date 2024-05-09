@@ -21,7 +21,7 @@
 
         #map {
             position: absolute;
-            top: 0;
+            top: 4rem;
             bottom: 0;
             width: 100%;
         }
@@ -39,6 +39,7 @@
         #title-infos {
             z-index: 1;
             position: fixed;
+            top: 4rem;
             font-size: 20px;
             font-weight: 500;
             margin: 5px 0px 0px 10px;
@@ -75,23 +76,61 @@
             font-size: 12px;
             font-weight: 600;
         }
+
+        header {
+            position: relative;
+            height: 4rem;
+            top: 0;
+            left: 0;
+            background-color: #5B91C2;
+            width: 100vw;
+        }
+
+        .header-bar {
+            width: 50px;
+            height: 5px;
+            background-color: #fff;
+            margin: 3px;
+            display: block;
+        }
+
+        header > button{
+            top: 50%;
+            transform: translateY(-50%);
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: transparent;
+            border: none;
+        }
+
+        header > h1{
+            left: 50%;
+            transform: translateX(-50%);
+            position: absolute;
+            color: white;
+        }
     </style>
 </head>
 
 <body>
-    <header style="width: 4rem;">
+    <header>
+        <button>
+            <span class="header-bar"></span>
+            <span class="header-bar"></span>
+            <span class="header-bar"></span>
+        </button>
+
+        <h1>Water Control</h1>
+
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
+
         </nav>
     </header>
     <main>
+
         <div class="col-9 col-md-6 col-lg-3">
             <div id="time-info">
                 <span id="time-text"></span>
@@ -101,13 +140,14 @@
                 <div id="pointer-data">0.0 mm</div>
             </div>
         </div>
+
         <div id="map"></div>
     </main>
     <script>
         maptilersdk.config.apiKey = '5MbXsNZXFjhjdUs84ZR9';
         const map = (window.map = new maptilersdk.Map({
-            container: 'map', // container's id or the HTML element to render the map
-            style: maptilersdk.MapStyle.BACKDROP,  // stylesheet location
+            container: 'map',
+            style: maptilersdk.MapStyle.BACKDROP,
             zoom: 2,
             center: [-42.66, 37.63],
             hash: true,
@@ -130,12 +170,12 @@
         map.on('load', function () {
             map.setPaintProperty("Water", 'fill-color', "rgba(0, 0, 0, 0.4)");
             map.addLayer(weatherLayer, 'Water');
-            weatherLayer.animateByFactor(0);
+            weatherLayer.animateByFactor(1800);
         });
 
         map.on('mouseout', function (evt) {
             if (!evt.originalEvent.relatedTarget) {
-                pointerDataDiv.innerText = "";
+                pointerDataDiv.innerText = "0.0 mm";
                 pointerLngLat = null;
             }
         });
